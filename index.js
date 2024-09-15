@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const todoRoutes = require('./src/routes/todoRoutes');
-const db = require('./models');
+// const db = require('./src/models');
 
 const app = express(); 
 
@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static files f
 app.use('/tasks', todoRoutes);
 
 // Sync database
-db.sequelize.sync();
+// db.sequelize.sync();
 
 // Error handling middleware
 app.use((err, req, res, next) => {
