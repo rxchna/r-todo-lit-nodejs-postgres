@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/db.config');
-const Task = require('../models/task.model');
+const Task = require('../models/task');
 
 // Initial data
 const initialData = [
@@ -38,24 +38,21 @@ const initialData = [
     }
 ];
 
-async function migrateInitialData() {
+async function migrateTasksData() {
     try {
-        // Ensure the table is created
+        // Ensure table is created
         await sequelize.sync();
 
-        // Check if there's already data in the table
+        // Migrate if table count == 0
         const count = await Task.count();
-        if (count === 0) {
-        // Insert initial data
-        await Task.bulkCreate(initialData);
-        console.log("Initial data inserted successfully");
-        } else {
-        console.log("Data already exists, skipping initial data insertion");
+        if (count == 0) {
+            // Insert initial data
+            await Task.bulkCreate(initialData);
+            console.log("Initial data inserted successfully");
         }
     } catch (error) {
         console.error("Error migrating initial data:", error);
     }
 }
 
-// Export the function so it can be used elsewhere
-module.exports = migrateInitialData;
+module.exports = migrateTasksData;

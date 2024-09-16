@@ -354,7 +354,7 @@ class TodoApp extends LitElement {
         }
     }
 
-    // Function to save the edited task
+    // Function to save edited task
     saveEditedTask(event) {
         event.preventDefault();
 
@@ -385,29 +385,26 @@ class TodoApp extends LitElement {
     // Function to handle editing a task
     async editTask(taskId) {
         try {
-            // Fetch the task data
+            // Fetch task
             const response = await fetch(`/tasks/${taskId}`);
             
-            // Convert the response to JSON
+            // Convert response to JSON
             const task = await response.json();
             
-            // Set editing state
             this.isEditing = 2;
             this.editTaskId = taskId;
             
-            // Await the DOM update before accessing form elements
             await this.requestUpdate();
     
-            // Populate the form with task data
+            // Populate form with task data
             this.populateForm(task);
     
         } catch (err) {
-            // Handle errors such as task not found
             alert('Task not found!');
         }
     }    
 
-    // Filtering tasks by search text
+    // Filter tasks by search text
     filterTasks(event) {
         const searchText = event.target.value.toLowerCase();
 
@@ -459,7 +456,7 @@ class TodoApp extends LitElement {
     }
 
     createTaskRow(task, index) {
-        // Determine if the row is even or odd based on the index
+        // Determine if row is even or odd based on index
         const rowClass = index % 2 === 0 ? 'even-row' : 'odd-row';
 
         return html`

@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const todoRoutes = require('./src/routes/todoRoutes');
 const sequelize = require('./src/config/db.config');
+const migrateTasksData = require('./src/migration/migrate-tasks-data');
 
 const app = express(); 
 
@@ -14,7 +15,13 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static files f
 app.use('/tasks', todoRoutes);
 
 // Sync database
-sequelize.sync();
+sequelize.sync()
+    .then(async () => {
+        await migrateTasksData(); // Run migration script
+    })
+    .catch(err => {
+        console.error("Error syncing database:", err);
+    });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -22,7 +29,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start the server
+// Start server
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
