@@ -2,7 +2,7 @@ module.exports = {
     HOST: "localhost",
     USER: "rtodo_user",
     PASSWORD: "secret",
-    DB: "todoDB",
+    DB: "tododb",
     dialect: "postgres",
     pool: {
         max: 5,
